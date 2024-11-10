@@ -2,7 +2,6 @@ import "./App.css";
 import BioData from "./components/BioData";
 function App() {
 	console.log("I am running");
-
 	return (
 		<div className="App">
 			<BioData
