@@ -1,24 +1,50 @@
-import "./App.css";
-import BioData from "./components/BioData";
+import { useState, useEffect } from "react";
 function App() {
-	console.log("I am running");
+	const [count, setCount] = useState(0);
+	const [posts, setPosts] = useState([]);
+
+	useEffect(() => {
+		console.log("I am inside useEffect");
+		fetch(`https://jsonplaceholder.typicode.com/posts?_limit=5`)
+			.then((res) => res.json())
+			.then((data) => {
+				//
+				// if (posts.length > 0) {
+				// 	return;
+				// }
+				setPosts(data);
+				return;
+				// posts = data
+				// console.log(data);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+		// setInterval()
+		const someInterval = setInterval(() => {
+			console.log("I am inside interval");
+		}, 1000);
+		return () => {
+			console.log("I am weird function");
+			clearInterval(someInterval);
+		};
+	}, []);
+
+	console.log("I am outside effect");
+
 	return (
 		<div className="App">
-			<BioData
-				name="Sr Setu"
-				age={32}
-				mobile="+88123123542354354"
-				occupation="Software Developer"
-				skills={["React", "Wp", "Php"]}
-				interests={["Reading", "Chess", "Traveling", "Violine"]}
-			/>
-			<BioData
-				name="Mahir Asief"
-				age={28}
-				occupation="Software Developer"
-				skills={["React", "Redux"]}
-				interests={["Reading", "Chess"]}
-			/>
+			<p>The value of the counter is {count}</p>
+			<button onClick={() => setCount(count + 1)}>Increase By 1</button>
+			<hr />
+			<div className="posts">
+				<h2>All Posts</h2>
+				<ul>
+					{posts?.map((post) => (
+						<li key={post.id}>{post.title}</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 }
@@ -31,3 +57,21 @@ function App() {
  */
 
 export default App;
+
+/**
+ * fetch(`https://jsonplaceholder.typicode.com/posts?_limit=5`)
+		.then((res) => res.json())
+		.then((data) => {
+			//
+			// if (posts.length > 0) {
+			// 	return;
+			// }
+			setPosts(data);
+			return;
+			// posts = data
+			// console.log(data);
+		})
+		.catch((err) => {
+			console.log(err.message);
+		});
+ */
