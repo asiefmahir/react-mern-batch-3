@@ -1,50 +1,30 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 function App() {
 	const [count, setCount] = useState(0);
-	const [posts, setPosts] = useState([]);
-
+	const inputRef = useRef(null);
+	console.log(inputRef.current);
+	function handleClick() {
+		setCount((prev) => prev + 1);
+		if (inputRef.current) {
+			// inputRef.current.style.width = "500px";
+			inputRef.current.focus();
+		}
+	}
 	useEffect(() => {
-		console.log("I am inside useEffect");
-		fetch(`https://jsonplaceholder.typicode.com/posts?_limit=5`)
-			.then((res) => res.json())
-			.then((data) => {
-				//
-				// if (posts.length > 0) {
-				// 	return;
-				// }
-				setPosts(data);
-				return;
-				// posts = data
-				// console.log(data);
-			})
-			.catch((err) => {
-				console.log(err.message);
-			});
-		// setInterval()
-		const someInterval = setInterval(() => {
-			console.log("I am inside interval");
-		}, 1000);
-		return () => {
-			console.log("I am weird function");
-			clearInterval(someInterval);
-		};
+		if (inputRef.current) {
+			// inputRef.current.style.width = "500px";
+			inputRef.current.focus();
+		}
 	}, []);
-
-	console.log("I am outside effect");
+	console.log("Rendering Phase");
 
 	return (
 		<div className="App">
-			<p>The value of the counter is {count}</p>
-			<button onClick={() => setCount(count + 1)}>Increase By 1</button>
+			<p>The value of the count is {count}</p>
+			<button onClick={handleClick}>Increase</button>
 			<hr />
-			<div className="posts">
-				<h2>All Posts</h2>
-				<ul>
-					{posts?.map((post) => (
-						<li key={post.id}>{post.title}</li>
-					))}
-				</ul>
-			</div>
+			<input ref={inputRef} type="text" />
+			<button>Submit Button</button>
 		</div>
 	);
 }
