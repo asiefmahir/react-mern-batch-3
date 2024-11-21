@@ -1,57 +1,44 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo } from "react";
+import OurAppTitle from "./components/OurAppTitle";
+import Button from "./components/Button";
+import Title from "./components/Title";
 function App() {
-	const [count, setCount] = useState(0);
-	const inputRef = useRef(null);
-	console.log(inputRef.current);
-	function handleClick() {
-		setCount((prev) => prev + 1);
-		if (inputRef.current) {
-			// inputRef.current.style.width = "500px";
-			inputRef.current.focus();
-		}
-	}
-	useEffect(() => {
-		if (inputRef.current) {
-			// inputRef.current.style.width = "500px";
-			inputRef.current.focus();
-		}
-	}, []);
-	console.log("Rendering Phase");
+	const [counter, setCounter] = useState(0);
+	const [counter2, setCounter2] = useState(10);
+
+	const increaseHandler = useCallback(() => {
+		setCounter((prevCounterValue) => prevCounterValue + 1);
+		// #00FFXXX // #jkhajkgsdjk
+	}, []); // #00FFXXX
+
+	const increaseHandler2 = useCallback(() => {
+		setCounter2((prev) => prev + 5);
+		// #454565456asdas // #hausduagdu
+	}, []); // #454565456asdas
+
+	const isEven = useMemo(() => {
+		let i = 0;
+		while (i < 1000000000) i++;
+		return counter % 2 === 0 ? `Counter is Even` : `Counter is Odd`;
+	}, [counter]);
+
+	console.log("App is rendering");
 
 	return (
 		<div className="App">
-			<p>The value of the count is {count}</p>
-			<button onClick={handleClick}>Increase</button>
+			<OurAppTitle />
 			<hr />
-			<input ref={inputRef} type="text" />
-			<button>Submit Button</button>
+			<div className="counter-app-1">
+				<Title value={counter} />
+				<p>{isEven}</p>
+				<Button clickHandler={increaseHandler} />
+			</div>
+			<div className="counter-app-1">
+				<Title value={counter2} />
+				<Button clickHandler={increaseHandler2} />
+			</div>
 		</div>
 	);
 }
 
-/**
- * A component must fullfil 3 criteria
- *    1) Component must be a function
- *    2) A Component must return "something"
- *    3) That "something" must be some html-ish code (jsx)
- */
-
 export default App;
-
-/**
- * fetch(`https://jsonplaceholder.typicode.com/posts?_limit=5`)
-		.then((res) => res.json())
-		.then((data) => {
-			//
-			// if (posts.length > 0) {
-			// 	return;
-			// }
-			setPosts(data);
-			return;
-			// posts = data
-			// console.log(data);
-		})
-		.catch((err) => {
-			console.log(err.message);
-		});
- */
