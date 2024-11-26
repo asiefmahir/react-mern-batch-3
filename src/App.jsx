@@ -1,41 +1,116 @@
-import { useState, useCallback, useMemo } from "react";
-import OurAppTitle from "./components/OurAppTitle";
-import Button from "./components/Button";
-import Title from "./components/Title";
+import { useState, useCallback, useMemo, useEffect } from "react";
+
 function App() {
-	const [counter, setCounter] = useState(0);
-	const [counter2, setCounter2] = useState(10);
+	const [todoTitle, setTodoTitle] = useState("");
+	const [todos, setTodos] = useState([]);
+	const [filter, setFilter] = useState("all");
 
-	const increaseHandler = useCallback(() => {
-		setCounter((prevCounterValue) => prevCounterValue + 1);
-		// #00FFXXX // #jkhajkgsdjk
-	}, []); // #00FFXXX
+	const filterOption = () => {
+		if (filter === "completed") {
+			return "completed=true";
+		} else if (filter === "pending") {
+			return "completed=false";
+		} else {
+			return "";
+		}
+	};
 
-	const increaseHandler2 = useCallback(() => {
-		setCounter2((prev) => prev + 5);
-		// #454565456asdas // #hausduagdu
-	}, []); // #454565456asdas
+	const getAllTodos = async () => {
+		const res = await fetch(
+			`http://localhost:4000/todos?${filterOption()}`,
+		);
+		const data = await res.json();
+		setTodos(data);
+	};
 
-	const isEven = useMemo(() => {
-		let i = 0;
-		while (i < 1000000000) i++;
-		return counter % 2 === 0 ? `Counter is Even` : `Counter is Odd`;
-	}, [counter]);
+	useEffect(() => {
+		getAllTodos();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [filter]);
 
-	console.log("App is rendering");
+	const submitHandler = async (e) => {
+		e.preventDefault();
+
+		const newTodo = {
+			title: todoTitle,
+			completed: false,
+		};
+
+		// data changes in API
+		await fetch(`http://localhost:4000/todos`, {
+			method: "POST",
+			body: JSON.stringify(newTodo),
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		setFilter("all");
+		await getAllTodos();
+		// setTodos([...todos, newTodo])
+
+		setTodoTitle("");
+	};
+
+	const removeHandler = async (todoId) => {
+		await fetch(`http://localhost:4000/todos/${todoId}`, {
+			method: "DELETE",
+		});
+		await getAllTodos();
+		// setTodos(todos.filter((todo) => todo.id !== todoId));
+	};
+
+	const updateHandler = async (todo) => {
+		await fetch(`http://localhost:4000/todos/${todo.id}`, {
+			method: "PUT",
+			body: JSON.stringify({ ...todo, completed: !todo.completed }),
+			headers: {
+				"Content-type": "application/json",
+			},
+		});
+		await getAllTodos();
+	};
 
 	return (
 		<div className="App">
-			<OurAppTitle />
-			<hr />
-			<div className="counter-app-1">
-				<Title value={counter} />
-				<p>{isEven}</p>
-				<Button clickHandler={increaseHandler} />
+			<form onSubmit={submitHandler}>
+				<input
+					type="text"
+					value={todoTitle}
+					onChange={(e) => setTodoTitle(e.target.value)}
+				/>
+				<button type="submit">Create Todo</button>
+			</form>
+			<div className="filter-options">
+				<select
+					name=""
+					id=""
+					value={filter}
+					onChange={(e) => setFilter(e.target.value)}
+				>
+					<option value="all">All</option>
+					<option value="completed">Completed</option>
+					<option value="pending">Pending</option>
+				</select>
 			</div>
-			<div className="counter-app-1">
-				<Title value={counter2} />
-				<Button clickHandler={increaseHandler2} />
+			<div className="todo-list">
+				<h2>Todo List</h2>
+				<ul>
+					{todos.map((todo) => (
+						<li key={todo.id}>
+							<input
+								type="checkbox"
+								name=""
+								id=""
+								checked={todo.completed}
+								onChange={() => updateHandler(todo)}
+							/>
+							<span>{todo.title}</span>
+							<button onClick={() => removeHandler(todo.id)}>
+								Remove
+							</button>
+						</li>
+					))}
+				</ul>
 			</div>
 		</div>
 	);

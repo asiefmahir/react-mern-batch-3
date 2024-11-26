@@ -1,0 +1,54 @@
+{
+  "todos": [
+    {
+      "title": "Learn Next Js",
+      "completed": true,
+      "id": "3"
+    },
+    {
+      "title": "Learn Node Js",
+      "completed": true,
+      "id": "4"
+    },
+    {
+      "title": "Learn Express Js",
+      "completed": false,
+      "id": "6"
+    },
+    {
+      "title": "Learn MySql",
+      "completed": false,
+      "id": "7"
+    },
+    {
+      "title": "Learn Strapi",
+      "completed": false,
+      "id": "8"
+    },
+    {
+      "title": "Learn Redux",
+      "completed": false,
+      "id": "qYhyZpy"
+    },
+    {
+      "title": "Learn MERN",
+      "completed": false,
+      "id": "NfAsi1e"
+    },
+    {
+      "title": "Learn Python",
+      "completed": true,
+      "id": "Ocq7TmP"
+    },
+    {
+      "title": "Learn Nuxt",
+      "completed": false,
+      "id": "tic-RWq"
+    },
+    {
+      "title": "Learn ABC",
+      "completed": false,
+      "id": "Teyfndv"
+    }
+  ]
+}
