@@ -11,44 +11,19 @@
       "id": "4"
     },
     {
-      "title": "Learn Express Js",
+      "title": "Learn Css",
       "completed": false,
-      "id": "6"
+      "id": "4LjZJl4"
     },
     {
-      "title": "Learn MySql",
+      "title": "Learn Wp",
       "completed": false,
-      "id": "7"
+      "id": "HEGTbt2"
     },
     {
-      "title": "Learn Strapi",
+      "title": "Learn MongoDb",
       "completed": false,
-      "id": "8"
-    },
-    {
-      "title": "Learn Redux",
-      "completed": false,
-      "id": "qYhyZpy"
-    },
-    {
-      "title": "Learn MERN",
-      "completed": false,
-      "id": "NfAsi1e"
-    },
-    {
-      "title": "Learn Python",
-      "completed": true,
-      "id": "Ocq7TmP"
-    },
-    {
-      "title": "Learn Nuxt",
-      "completed": false,
-      "id": "tic-RWq"
-    },
-    {
-      "title": "Learn ABC",
-      "completed": false,
-      "id": "Teyfndv"
+      "id": "M5P3zFP"
     }
   ]
 }
