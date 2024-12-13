@@ -10,6 +10,9 @@ import Notes, { loader, action } from "../pages/Notes";
 import PostList from "../pages/PostList";
 import UserList from "../pages/UserList";
 import PostDetails from "../pages/PostDetails";
+import Shop from "../pages/Shop";
+import AddProductForm from "../pages/AddProductForm";
+import SignupForm from "../pages/SignupForm";
 
 // import "../index.css";
 
@@ -25,6 +28,10 @@ export const rootRouter = createBrowserRouter([
 			{ path: "/posts", element: <PostList /> },
 			{ path: "/users", element: <UserList /> },
 			{ path: "/posts/:id", element: <PostDetails /> },
+			{ path: "/shop", element: <Shop /> },
+			{ path: "/add-product", element: <AddProductForm /> },
+			{ path: "/sign-up", element: <SignupForm /> },
+
 			{
 				path: "/notes",
 				element: <Notes />,
