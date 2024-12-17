@@ -1,60 +1,35 @@
-import { useTodo } from "./hooks/useTodo";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-	const {
-		submitHandler,
-		todoTitle,
-		setTodoTitle,
-		setFilter,
-		filter,
-		todos,
-		updateHandler,
-		removeHandler,
-	} = useTodo();
-	return (
-		<div className="App">
-			<form onSubmit={submitHandler}>
-				<input
-					type="text"
-					value={todoTitle}
-					onChange={(e) => setTodoTitle(e.target.value)}
-				/>
-				<button type="submit">Create Todo</button>
-			</form>
-			<div className="filter-options">
-				<select
-					name=""
-					id=""
-					value={filter}
-					onChange={(e) => setFilter(e.target.value)}
-				>
-					<option value="all">All</option>
-					<option value="completed">Completed</option>
-					<option value="pending">Pending</option>
-				</select>
-			</div>
-			<div className="todo-list">
-				<h2>Todo List</h2>
-				<ul>
-					{todos.map((todo) => (
-						<li key={todo.id}>
-							<input
-								type="checkbox"
-								name=""
-								id=""
-								checked={todo.completed}
-								onChange={() => updateHandler(todo)}
-							/>
-							<span>{todo.title}</span>
-							<button onClick={() => removeHandler(todo.id)}>
-								Remove
-							</button>
-						</li>
-					))}
-				</ul>
-			</div>
-		</div>
-	);
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default App;
+export default App

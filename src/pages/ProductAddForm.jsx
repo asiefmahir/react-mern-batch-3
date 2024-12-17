@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router";
 
 const AddProductForm = () => {
 	const [product, setProduct] = useState({
@@ -9,11 +10,15 @@ const AddProductForm = () => {
 		image: "",
 		description: "",
 	});
+	const navigate = useNavigate();
 
 	const handleChange = (e) => {
 		setProduct({
 			...product,
-			[e.target.name]: e.target.value,
+			[e.target.name]:
+				e.target.name === "price"
+					? Number(e.target.value)
+					: e.target.value,
 		});
 	};
 	// [api.reducerPath] : api.reducer
@@ -21,6 +26,7 @@ const AddProductForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		await addDoc(collection(db, "products"), product);
+		navigate("/");
 		// addDoc()
 	};
 
