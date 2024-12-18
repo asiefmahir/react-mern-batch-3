@@ -1,9 +1,7 @@
 import { Link } from "react-router";
-import { auth, db } from "../firebase";
+import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useAuth } from "../contexts/Auth";
-import { getDoc, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
 
 const Nav = () => {
 	const { userLoggedIn, role } = useAuth();
@@ -22,10 +20,6 @@ const Nav = () => {
 						</li>
 
 						<li>
-							<Link to="/admin/products">Products</Link>
-						</li>
-
-						<li>
 							<Link to="/admin/users">Users</Link>
 						</li>
 
@@ -37,6 +31,12 @@ const Nav = () => {
 							(role === "super-admin" || role === "admin") && (
 								<li>
 									<Link to="/add-product">Add Product</Link>
+								</li>
+							)}
+						{userLoggedIn &&
+							(role === "super-admin" || role === "admin") && (
+								<li>
+									<Link to="/all-products">Products</Link>
 								</li>
 							)}
 

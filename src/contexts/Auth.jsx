@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import { auth, db } from "../firebase";
-// import { GoogleAuthProvider } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 
@@ -36,6 +35,7 @@ export function AuthProvider({ children }) {
 		} else {
 			setCurrentUser(null);
 			setUserLoggedIn(false);
+			setRole("");
 		}
 
 		setLoading(false);
@@ -53,4 +53,16 @@ export function AuthProvider({ children }) {
 			{!loading && children}
 		</AuthContext.Provider>
 	);
+}
+
+{
+	/* <AuthProvider>
+	{() => return a + b}
+</AuthProvider>; */
+}
+
+{
+	/* <div>
+	<h2></h2>
+</div> */
 }

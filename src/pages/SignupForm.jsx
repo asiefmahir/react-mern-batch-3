@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "../firebase";
 import classes from "../form.module.css";
-// import "../form.module.css";
 
 const SignupForm = () => {
 	const [user, setUser] = useState({
@@ -15,6 +14,7 @@ const SignupForm = () => {
 	const [isLoading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
+	// navigate('/add-product')
 
 	// console.log(auth?.currentUser.uid);
 

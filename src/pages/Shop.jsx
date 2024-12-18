@@ -1,24 +1,8 @@
-import { useEffect, useState } from "react";
-
-import { db } from "../firebase";
-import { getDocs, collection } from "firebase/firestore";
 import ProductCard from "../components/ProductCard";
+import { useGetAllProductsQuery } from "../features/api/apiSlice";
 
 const Shop = () => {
-	const [products, setProducts] = useState([]);
-	const productsCollectionRef = collection(db, "products");
-	useEffect(() => {
-		const getProducts = async () => {
-			const data = await getDocs(productsCollectionRef);
-			const filteredData = data.docs.map((doc) => ({
-				...doc.data(),
-				id: doc.id,
-			}));
-			setProducts(filteredData);
-			console.log(filteredData);
-		};
-		getProducts();
-	}, []);
+	const { data: products } = useGetAllProductsQuery();
 	return (
 		<>
 			<div className="page-banner">
