@@ -1,5 +1,6 @@
 import { Navigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
+
 export default function PrivateAdminRoute({ children }) {
 	const { userLoggedIn, role } = useAuth();
 
