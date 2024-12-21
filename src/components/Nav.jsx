@@ -15,17 +15,20 @@ const Nav = () => {
 							<Link to="/">Home</Link>
 						</li>
 
-						<li>
-							<Link to="/sign-up">Sign Up</Link>
-						</li>
-
-						<li>
-							<Link to="/admin/users">Users</Link>
-						</li>
+						{!userLoggedIn && (
+							<li>
+								<Link to="/sign-up">Sign Up</Link>
+							</li>
+						)}
 
 						<li>
 							<Link to="/cart">Cart</Link>
 						</li>
+						{userLoggedIn && (
+							<li>
+								<Link to="/checkout">Checkout</Link>
+							</li>
+						)}
 
 						{userLoggedIn &&
 							(role === "super-admin" || role === "admin") && (
@@ -39,10 +42,6 @@ const Nav = () => {
 									<Link to="/all-products">Products</Link>
 								</li>
 							)}
-
-						<li>
-							<Link to="/my-orders">My Orders</Link>
-						</li>
 
 						{!userLoggedIn && (
 							<li>

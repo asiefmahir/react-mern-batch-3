@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
 		setLoading(false);
 	}
 
-	const value = {
+	const abc = {
 		userLoggedIn,
 		currentUser,
 		setCurrentUser,
@@ -49,7 +49,7 @@ export function AuthProvider({ children }) {
 	};
 
 	return (
-		<AuthContext.Provider value={value}>
+		<AuthContext.Provider value={abc}>
 			{!loading && children}
 		</AuthContext.Provider>
 	);

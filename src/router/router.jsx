@@ -7,6 +7,8 @@ import AddProductForm from "../pages/ProductAddForm";
 import PrivateAdminRoute from "../components/PrivateAdminRoute";
 import Cart from "../pages/Cart";
 import Products from "../pages/AllProducts";
+import Checkout from "../pages/Checkout";
+import PrivateUserRoute from "../components/PrivateRoute";
 
 export const router = createBrowserRouter([
 	{
@@ -23,6 +25,14 @@ export const router = createBrowserRouter([
 					<PrivateAdminRoute>
 						<AddProductForm />
 					</PrivateAdminRoute>
+				),
+			},
+			{
+				path: "/checkout",
+				element: (
+					<PrivateUserRoute>
+						<Checkout />
+					</PrivateUserRoute>
 				),
 			},
 			{
