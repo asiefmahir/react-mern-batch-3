@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export const addProduct = async (data) => {
 	console.log("Hello");
-	await fetch(`http://localhost:3000/api/product`, {
+	await fetch(`http://localhost:4000/products`, {
 		method: "POST",
 		body: JSON.stringify(data),
 		headers: {
