@@ -3,7 +3,7 @@ import ProductCard from "@/app/components/ProductCard";
 const Home = async () => {
 	console.log("Home is Rendering abas");
 
-	const res = await fetch(`http://localhost:3000/api/product`, {
+	const res = await fetch(`http://localhost:4000/products`, {
 		next: { tags: ["products"] },
 	});
 	const products = await res.json();
