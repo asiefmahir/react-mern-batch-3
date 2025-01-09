@@ -1,7 +1,10 @@
 import ProductCard from "@/app/components/ProductCard";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 const Home = async () => {
 	console.log("Home is Rendering abas");
+	const session = await getServerSession(authOptions);
+	console.log(session, "home page");
 
 	const res = await fetch(`http://localhost:4000/products`, {
 		next: { tags: ["products"] },
