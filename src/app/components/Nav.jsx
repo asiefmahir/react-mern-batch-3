@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 const Nav = () => {
+	const { data, status } = useSession();
+	console.log(data, "data");
+	console.log(status, "auth status");
+
 	return (
 		<header className="header">
 			<div className="container">
@@ -10,8 +15,15 @@ const Nav = () => {
 							<Link href="/">Home</Link>
 						</li>
 						<li>
-							<Link href="/posts">Posts</Link>
+							<Link href="/register">Sign Up</Link>
 						</li>
+						{status === "authenticated" &&
+							(data?.user?.role === "admin" ||
+								data?.user?.role === "super-admin") && (
+								<li>
+									<Link href="/admin">Admin</Link>
+								</li>
+							)}
 
 						<li>
 							<Link href="/cart">Cart</Link>
@@ -27,6 +39,9 @@ const Nav = () => {
 						<li>
 							<Link href="/all-products">Products</Link>
 						</li>
+						{status === "authenticated" && (
+							<button onClick={() => signOut()}>Logout</button>
+						)}
 					</ul>
 				</nav>
 			</div>
