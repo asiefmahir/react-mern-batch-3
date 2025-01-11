@@ -1,4 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+
 import User from "@/models/user";
 import bcrypt from "bcrypt";
 import connectDb from "./db";
@@ -48,7 +49,6 @@ export const authOptions = {
 			const userByEmail = await User.findOne({ email: token.email });
 			userByEmail.password = undefined;
 			token.user = userByEmail;
-			token.abc = 10;
 			return token;
 		},
 		session: async ({ session, token }) => {
