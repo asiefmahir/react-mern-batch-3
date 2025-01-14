@@ -12,7 +12,7 @@ export const authOptions = {
 		CredentialsProvider({
 			async authorize(credentials, req) {
 				// login
-				console.log("authorize called", credentials);
+				// console.log("authorize called", credentials);
 
 				await connectDb();
 				const { email, password } = credentials;
@@ -37,13 +37,13 @@ export const authOptions = {
 	],
 	callbacks: {
 		async signIn({ user }) {
-			console.log("signin called", user);
+			// console.log("signin called", user);
 			if (user) {
 				return true;
 			}
 		},
 		jwt: async ({ token, user }) => {
-			console.log("jwt called", token);
+			// console.log("jwt called", token);
 
 			await connectDb();
 			const userByEmail = await User.findOne({ email: token.email });
@@ -52,7 +52,7 @@ export const authOptions = {
 			return token;
 		},
 		session: async ({ session, token }) => {
-			console.log(`session called`, session);
+			// console.log(`session called`, session);
 
 			session.user = token.user;
 			// console.log(session);
