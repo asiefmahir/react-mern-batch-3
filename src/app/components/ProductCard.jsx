@@ -6,7 +6,7 @@ const ProductCard = ({ product }) => {
 				<figure>
 					{/* <img src={product.image} alt={product.title} /> */}
 					<Image
-						src={product.image}
+						src={product.image?.secure_url}
 						alt=""
 						width={1600}
 						height={900}

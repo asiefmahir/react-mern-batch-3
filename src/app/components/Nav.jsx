@@ -14,9 +14,11 @@ const Nav = () => {
 						<li>
 							<Link href="/">Home</Link>
 						</li>
-						<li>
-							<Link href="/register">Sign Up</Link>
-						</li>
+						{status !== "authenticated" && (
+							<li>
+								<Link href="/register">Sign Up</Link>
+							</li>
+						)}
 						{status === "authenticated" &&
 							(data?.user?.role === "admin" ||
 								data?.user?.role === "super-admin") && (
@@ -41,6 +43,11 @@ const Nav = () => {
 						</li>
 						{status === "authenticated" && (
 							<button onClick={() => signOut()}>Logout</button>
+						)}
+						{status !== "authenticated" && (
+							<li>
+								<Link href="/login">Login</Link>
+							</li>
 						)}
 					</ul>
 				</nav>

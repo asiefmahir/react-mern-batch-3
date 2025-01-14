@@ -2,6 +2,8 @@
 
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
+// import "bootstrap-material-design/dist/css/bootstrap-material-design.min.css";
+
 import Nav from "./components/Nav";
 import SessionProviderWrapper from "./components/SessionProvider";
 
@@ -24,6 +26,11 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
+			{/* <link
+				rel="preload"
+				href="bootstrap-material-design/dist/css/bootstrap-material-design.min.css"
+				as="style"
+			/> */}
 			<body className={`${poppins.className}`}>
 				<SessionProviderWrapper>
 					<Nav />
