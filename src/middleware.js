@@ -16,10 +16,7 @@ export default withAuth(
 
 		const role = req?.nextauth?.token?.user?.role;
 
-		if (
-			url?.includes("/admin") &&
-			(role !== "admin" || role !== "super-admin")
-		) {
+		if (url?.includes("/admin") && role !== "admin") {
 			return NextResponse.redirect(new URL("/", req.url));
 		}
 	},
@@ -33,3 +30,7 @@ export default withAuth(
 		},
 	},
 );
+
+// export default withAuth;
+
+// export default withAuth;

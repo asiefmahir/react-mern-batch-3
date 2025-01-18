@@ -14,6 +14,9 @@ const Nav = () => {
 						<li>
 							<Link href="/">Home</Link>
 						</li>
+						<li>
+							<Link href="/shop">Shop</Link>
+						</li>
 						{status !== "authenticated" && (
 							<li>
 								<Link href="/register">Sign Up</Link>
@@ -23,7 +26,9 @@ const Nav = () => {
 							(data?.user?.role === "admin" ||
 								data?.user?.role === "super-admin") && (
 								<li>
-									<Link href="/dashboard/admin">Admin</Link>
+									<Link href="/dashboard/admin/add-product">
+										Add Product
+									</Link>
 								</li>
 							)}
 
@@ -32,10 +37,6 @@ const Nav = () => {
 						</li>
 						<li>
 							<Link href="/static-page">Static Page</Link>
-						</li>
-
-						<li>
-							<Link href="/add-product">Add Product</Link>
 						</li>
 
 						<li>

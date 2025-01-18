@@ -1,15 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { addProduct } from "../actions/product";
+import { useState, useEffect } from "react";
+import { addProduct } from "@/app/actions/product";
 
 const AddProductForm = () => {
 	const [product, setProduct] = useState({
 		title: "",
 		price: "",
 		image: "",
+		category: "",
 		description: "",
 	});
+
+	const [imgUrl, setImgUrl] = useState("");
+	const [categories, setCategories] = useState([]);
+
+	useEffect(() => {
+		const getCategories = () => {
+			fetch(`${process.env.NEXT_PUBLIC_API}/api/category`)
+				.then((res) => res.json())
+				.then((data) => {
+					setCategories(data);
+					setProduct((prev) => ({ ...prev, category: data[0]._id }));
+				});
+		};
+		getCategories();
+	}, []);
 
 	const handleChange = (e) => {
 		setProduct({
@@ -44,29 +60,34 @@ const AddProductForm = () => {
 		);
 
 		const result = await res.json();
-		console.log(result);
+		const img = {
+			public_id: result.public_id,
+			secure_url: result.secure_url,
+		};
+		console.log(result, "res");
 		// result.secure_url will held the image url.
-		setProduct({ ...product, image: result.secure_url });
+		setProduct({ ...product, image: img });
+		setImgUrl(result.secure_url);
 	};
 	// [api.reducerPath] : api.reducer
 
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-	// 	if (!product.image) {
-	// 		return alert(`Please Wait until the image uploading is done`);
-	// 	}
-	// 	// await fetch(`http://localhost:4000/products`, {
-	// 	// 	method: "POST",
-	// 	// 	body: JSON.stringify(product),
-	// 	// 	headers: {
-	// 	// 		"Content-Type": "application/json",
-	// 	// 	},
-	// 	// });
-	// 	addProduct(product);
-	// };
+		if (!product.image) {
+			return alert(`Please Wait until the image uploading is done`);
+		}
+		// await fetch(`http://localhost:4000/products`, {
+		// 	method: "POST",
+		// 	body: JSON.stringify(product),
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// });
+		addProduct(product);
+	};
 
-	const addProductWIthData = addProduct.bind(null, product);
+	// const addProductWIthData = addProduct.bind(null, product);
 
 	return (
 		<>
@@ -77,8 +98,8 @@ const AddProductForm = () => {
 					justifyContent: "space-between",
 					alignItems: "center",
 				}}
-				// onSubmit={handleSubmit}
-				action={addProductWIthData}
+				onSubmit={handleSubmit}
+				// action={addProductWIthData}
 			>
 				<p>Title:</p>
 				<input
@@ -111,11 +132,23 @@ const AddProductForm = () => {
 					required
 				/>
 				<br />
+				<select
+					name="category"
+					id=""
+					onChange={handleChange}
+					value={product.category}
+				>
+					{categories?.map((cat) => (
+						<option key={cat?._id} value={cat?._id}>
+							{cat.title}
+						</option>
+					))}
+				</select>
 				<p>Image URL:</p>
 
 				{product.image && (
 					<img
-						src={product.image}
+						src={imgUrl}
 						alt=""
 						style={{ width: "100px", height: "100px" }}
 					/>
