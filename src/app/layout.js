@@ -6,6 +6,7 @@ import "./globals.css";
 
 import Nav from "./components/Nav";
 import SessionProviderWrapper from "./components/SessionProvider";
+import CartProvider from "./contexts/Cart";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -26,15 +27,17 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			{/* <link
+			<link
 				rel="preload"
 				href="bootstrap-material-design/dist/css/bootstrap-material-design.min.css"
 				as="style"
-			/> */}
+			/>
 			<body className={`${poppins.className}`}>
 				<SessionProviderWrapper>
-					<Nav />
-					{children}
+					<CartProvider>
+						<Nav />
+						{children}
+					</CartProvider>
 				</SessionProviderWrapper>
 			</body>
 		</html>

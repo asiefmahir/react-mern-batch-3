@@ -8,7 +8,7 @@ export async function GET(req) {
 	const searchParams = queryString.parseUrl(req.url).query;
 	const { page, minPrice, maxPrice, category } = searchParams || {};
 
-	const pageSize = 2;
+	const pageSize = 3;
 
 	const filter = {};
 
@@ -25,7 +25,7 @@ export async function GET(req) {
 			.skip(skip)
 			.limit(pageSize)
 			.sort({ createdAt: -1 });
-		console.log(filteredProducts, "fill");
+		// console.log(filteredProducts, "fill");
 
 		const totalFilteredProducts = await Product.find(filter);
 		return NextResponse.json(

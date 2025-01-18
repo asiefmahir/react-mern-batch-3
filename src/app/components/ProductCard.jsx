@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useCart } from "../contexts/Cart";
 const ProductCard = ({ product }) => {
+	const { addToCart } = useCart();
 	return (
 		<div className="ingredient">
 			<div className="ingredient__image">
@@ -23,11 +27,7 @@ const ProductCard = ({ product }) => {
 			</div>
 			<div className="ingredient__btn">
 				<button
-					// onClick={(e) => {
-					// 	e.stopPropagation();
-
-					// 	dispatch(addToCart(product));
-					// }}
+					onClick={() => addToCart(product)}
 					className="btn-white"
 				>
 					ADD TO CART

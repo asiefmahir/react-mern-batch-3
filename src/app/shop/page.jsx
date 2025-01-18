@@ -4,12 +4,12 @@ import ProductFilter from "@/app/components/ProductFilter";
 import Pagination from "@/app/components/Pagination";
 import ProductCard from "../components/ProductCard";
 
-async function getProductsForShop(searchParams) {
+async function getProductsForShop(upd) {
 	const searchQuery = new URLSearchParams({
-		page: searchParams?.page || 1,
-		minPrice: searchParams?.minPrice || "",
-		maxPrice: searchParams?.maxPrice || "",
-		category: searchParams?.category || "",
+		page: upd?.page || 1,
+		minPrice: upd?.minPrice || "",
+		maxPrice: upd?.maxPrice || "",
+		category: upd?.category || "",
 	}).toString();
 	console.log(searchQuery, "ssss");
 
@@ -35,9 +35,11 @@ async function getProductsForShop(searchParams) {
 
 export default async function Shop({ searchParams }) {
 	//   console.log("searchParams in shop page => ", searchParams);
-	const { products, currentPage, totalPages } = await getProductsForShop(
-		searchParams,
-	);
+	const { page, minPrice, maxPrice, category } = await searchParams;
+	const upd = { page, minPrice, maxPrice, category };
+	console.log(upd, "upd");
+
+	const { products, currentPage, totalPages } = await getProductsForShop(upd);
 	console.log(totalPages, "t-page");
 
 	return (
@@ -47,33 +49,33 @@ export default async function Shop({ searchParams }) {
 					className="col-lg-3 overflow-auto"
 					style={{ maxHeight: "90vh" }}
 				>
-					<ProductFilter searchParams={searchParams} />
+					<ProductFilter />
 				</div>
-				<div
-					className="col-lg-9 overflow-auto"
-					style={{ maxHeight: "90vh" }}
-				>
+				<div className="col-lg-9" style={{ maxHeight: "90vh" }}>
 					<h4 className="text-center fw-bold mt-3">
 						Shop Latest products
 					</h4>
 
-					<div className="section__content">
-						<div className="grid three">
-							{products?.map((product) => (
-								<ProductCard
-									key={product._id}
-									product={product}
-								/>
-							))}
+					{products.length > 0 ? (
+						<div className="row">
+							<div className="grid three">
+								{products?.map((product) => (
+									<ProductCard
+										key={product._id}
+										product={product}
+									/>
+								))}
+							</div>
 						</div>
-					</div>
+					) : (
+						<h4 className="text-center">No products found</h4>
+					)}
 
 					<br />
 
 					<Pagination
 						currentPage={currentPage}
 						totalPages={totalPages}
-						searchParams={searchParams}
 						pathname="/shop"
 					/>
 				</div>

@@ -1,18 +1,30 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import connectDb from "@/utils/db";
+import Product from "@/models/product";
 
-export const addProduct = async (data) => {
-	console.log("Hello");
-	await fetch(`http://localhost:4000/products`, {
-		method: "POST",
-		body: JSON.stringify(data),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-	// revalidatePath("/");
-	revalidateTag("products");
+export async function addProduct(prevState) {
+	try {
+		await connectDb();
+		const product = {
+			title: prevState.title,
+			description: prevState.description,
+			price: Number(prevState.price),
+			category: prevState.category,
+			image: prevState.image,
+		};
+		await new Product(product).save();
+	} catch (error) {
+		console.log(error);
+		return {
+			message: "Error creating product",
+		};
+	}
+
+	revalidatePath("/");
+	// revalidatePath("/dashboard/admin/products");
+
 	redirect("/");
-};
+}

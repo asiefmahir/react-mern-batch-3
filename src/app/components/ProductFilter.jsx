@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { priceRanges } from "@/utils/filteredData";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
-export default function ProductFilter({ searchParams }) {
+export default function ProductFilter() {
 	const [categories, setCategories] = useState([]);
 	const pathname = "/shop";
-	const { minPrice, maxPrice, category } = searchParams;
+	const params = useSearchParams();
 
 	const getCategories = async () => {
 		const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/category`, {
@@ -29,30 +30,34 @@ export default function ProductFilter({ searchParams }) {
 	const button = "btn btn-raised mx-1 rounded-pill";
 
 	const handleRemoveFilter = (filterName) => {
-		const updatedSearchParams = { ...searchParams };
+		// const updatedSearchParams = { ...searchParams };
+		// const updatedSearchParams = useSearchParams();
 		// delete updatedSearchParams[filterName];
+		let newParams = new URLSearchParams(params.toString());
 
 		// if filterName is string
 		if (typeof filterName === "string") {
-			delete updatedSearchParams[filterName];
+			newParams.delete(filterName);
 		}
 		// if filterName is array
 		if (Array.isArray(filterName)) {
 			filterName?.forEach((name) => {
-				delete updatedSearchParams[name];
+				newParams.delete(name);
 			});
 		}
 
 		// reset page to 1 when applying new filtering options
-		updatedSearchParams.page = 1;
+		newParams.page = 1;
 
-		const queryString = new URLSearchParams(updatedSearchParams).toString();
+		const queryString = newParams.toString();
+		console.log(queryString, "qs");
+
 		const newUrl = `${pathname}?${queryString}`;
 		router.push(newUrl);
 	};
 
 	const createQueryString = (name, value) => {
-		let params = new URLSearchParams(searchParams);
+		let newParams = new URLSearchParams(params.toString());
 
 		if (Array.isArray(name) && Array.isArray(value)) {
 			// console.log(name, value, "val");
@@ -60,21 +65,17 @@ export default function ProductFilter({ searchParams }) {
 			// name =["minPrice", "maxPrice"]
 			// value = [range?.min, range?.max]
 			name.forEach((n, index) => {
-				// console.log(n, "lw");
-
-				params.set(n, value[index]);
-				// params.set("minPrice", 50)
-				// params.set("maxPrice", 100)
+				newParams.set(n, value[index]);
 			});
-			params.set("page", 1);
+			newParams.set("page", 1);
 
-			return params.toString();
+			return newParams.toString();
 		}
 
 		if (typeof name === "string") {
-			params.set(name, value);
-			params.set("page", 1);
-			return params.toString();
+			newParams.set(name, value);
+			newParams.set("page", 1);
+			return newParams.toString();
 		}
 	};
 
@@ -89,9 +90,11 @@ export default function ProductFilter({ searchParams }) {
 			<p className="mt-4 alert alert-primary">Price</p>
 			<div className="row d-flex align-items-center mx-1">
 				{priceRanges?.map((range) => {
+					console.log(params, "mini");
+
 					const isActive =
-						minPrice === String(range?.min) &&
-						maxPrice === String(range?.max);
+						params.get("minPrice") === String(range?.min) &&
+						params.get("maxPrice") === String(range?.max);
 					return (
 						<div key={range?.label}>
 							<button
@@ -114,7 +117,7 @@ export default function ProductFilter({ searchParams }) {
 								{range?.label}
 							</button>
 							{isActive && (
-								<span
+								<button
 									onClick={() =>
 										handleRemoveFilter([
 											"minPrice",
@@ -124,7 +127,7 @@ export default function ProductFilter({ searchParams }) {
 									className="pointer"
 								>
 									X
-								</span>
+								</button>
 							)}
 						</div>
 					);
@@ -134,7 +137,7 @@ export default function ProductFilter({ searchParams }) {
 			<p className="mt-4 alert alert-primary">Categories</p>
 			<div className="row d-flex align-items-center mx-1 filter-scroll">
 				{categories?.map((c) => {
-					const isActive = category === c._id;
+					const isActive = params.get("category") === c._id;
 
 					return (
 						<div key={c._id}>
@@ -152,14 +155,14 @@ export default function ProductFilter({ searchParams }) {
 								{c?.title}
 							</button>
 							{isActive && (
-								<span
+								<button
 									onClick={() =>
 										handleRemoveFilter("category")
 									}
 									className="pointer"
 								>
 									X
-								</span>
+								</button>
 							)}
 						</div>
 					);
